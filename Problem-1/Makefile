@@ -1,4 +1,4 @@
-CC = gcc
+CC = g++
 CFLAGS = -Wall -g
 
 SRC = Solution.cpp
@@ -14,7 +14,7 @@ $(EXECUTABLE): $(OBJ)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f $(OBJ) $(EXECUTABLE)
+	rm -f $(EXECUTABLE)
 
 test:
 	./myprogram

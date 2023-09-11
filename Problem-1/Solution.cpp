@@ -8,34 +8,24 @@ class Solution
 public:
     vector<int> twoSum(vector<int> &nums, int target)
     {
-        vector<bool> existNum(target, false);
-        vector<int> myVector(target, 0);
-
-        vector<int> answer;
+        map<int, int> hashMap;
         int currentNum = 0;
-        int position = 0;
-        for (int i = 0; i < nums.size(); i++)
+
+        int n = nums.size();
+        for (int i = 0; i < n; i++)
         {
             currentNum = nums[i];
-            if (currentNum >= target)
-            {
-                continue;
-            }
 
-            position = target - currentNum;
-            if (!existNum[position])
+            if (hashMap.count(currentNum) > 0)
             {
-                existNum[position] = true;
-                myVector[position] = i;
+                return {hashMap[currentNum], i};
             }
             else
             {
-                answer.push_back(myVector[position]);
-                answer.push_back(i);
-                return answer;
+                hashMap[target - currentNum] = i;
             }
         }
-        return answer;
+        return {};
     }
 };
 
