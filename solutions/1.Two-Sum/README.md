@@ -23,3 +23,35 @@ nums[0] + nums[1] = 2 + 7 = 9
 - 在哈希表`record`中查找`complement`是否存在：
   - 如果存在，返还当前整数下标与哈希表中索引为`complement`的元素
   - 如果不存在，在哈希表中记录当前整数与当前整数的下标
+
+
+## 代码实现
+
+###### C++
+
+``` c++
+#include <iostream>
+#include <map>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        std::map<int, int> record;
+        int complementary;
+
+        for (int i=0; i < nums.size(); i++) {
+            complementary = target - nums[i];
+
+            if (record.count(complementary) != 0) {
+                return {i, record[complementary]};
+            } else {
+                record[nums[i]] = i;
+            } 
+        }
+
+        return {};
+    }
+};
+```
