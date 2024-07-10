@@ -55,3 +55,28 @@ public:
     }
 };
 ```
+
+###### Rust
+
+``` rust
+use std::collections::HashMap;
+
+impl Solution {
+    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let mut record = HashMap::new(); 
+        let mut complementary;
+
+        for i in 0..nums.len() {
+            complementary = target - nums[i];
+
+            if let Some(&index) = record.get(&complementary) { 
+                return vec![index as i32, i as i32]; 
+            } else {
+                record.insert(nums[i], i as i32);
+            }
+        }
+
+        vec![] 
+    }
+}
+```
