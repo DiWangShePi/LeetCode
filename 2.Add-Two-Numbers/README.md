@@ -23,3 +23,35 @@
 在每一个元素的遍历中，计算链表一、链表二和`carry`三个元素的和，获取链表三新元素的值和新的进位。
 
 链表三的长度不小于 max(链表一，链表二)，在遍历结束后，依据进位是否为0判断是否需要创建新的元素。
+
+### 代码实现
+
+###### c++
+
+``` c++
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode dummy; 
+        ListNode* pointer = &dummy;
+        int carry = 0;
+
+        while (l1 != nullptr || l2 != nullptr || carry != 0) {
+            int sum = carry;
+            if (l1 != nullptr) {
+                sum += l1->val;
+                l1 = l1->next;
+            }
+            if (l2 != nullptr) {
+                sum += l2->val;
+                l2 = l2->next;
+            }
+            carry = sum / 10;
+            pointer->next = new ListNode(sum % 10);
+            pointer = pointer->next;
+        }
+
+        return dummy.next;
+    }
+};
+```
