@@ -55,3 +55,34 @@ public:
     }
 };
 ```
+
+###### Rust
+``` rust
+impl Solution {
+    pub fn add_two_numbers(
+        mut l1: Option<Box<ListNode>>,
+        mut l2: Option<Box<ListNode>>,
+    ) -> Option<Box<ListNode>> {
+        
+        let mut dummy_head = ListNode::new(0);
+        let mut current = &mut dummy_head;
+        let mut carry = 0;
+
+        while l1.is_some() || l2.is_some() || carry != 0 {
+            let sum = carry
+                + l1.as_ref().map_or(0, |node| node.val)
+                + l2.as_ref().map_or(0, |node| node.val);
+
+            carry = sum / 10;
+            let new_node = ListNode::new(sum % 10);
+            current.next = Some(Box::new(new_node));
+            current = current.next.as_mut().unwrap();
+
+            l1 = l1.and_then(|node| node.next);
+            l2 = l2.and_then(|node| node.next);
+        }
+
+        dummy_head.next
+    }
+}
+```
