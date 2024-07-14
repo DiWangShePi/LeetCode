@@ -48,3 +48,34 @@ public:
     }
 };
 ```
+
+###### rust
+
+```rust
+use std::collections::HashMap;
+
+impl Solution {
+    pub fn length_of_longest_substring(s: String) -> i32 {
+        let mut dict = HashMap::new();
+        let mut left: i32 = 0;
+        let mut max_length: i32 = 0;
+
+        for i in 0..s.len() {
+            let current_char = s[i..=i].to_string();
+
+            if let Some(&index) = dict.get(&current_char) {
+                if index as i32 + 1 > left {
+                    left = index as i32 + 1;
+                }
+            }
+
+            dict.insert(current_char, i);
+            if i as i32 - left + 1 > max_length {
+                max_length = i as i32 - left + 1;
+            }
+        }
+
+        max_length
+    }
+}
+```
