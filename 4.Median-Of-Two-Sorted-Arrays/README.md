@@ -81,3 +81,51 @@ public:
     }
 };
 ```
+
+###### Rust
+
+```rust
+use std::cmp::max;
+use std::cmp::min;
+
+impl Solution {
+    pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
+        let m = nums1.len();
+        let n = nums2.len();
+
+        if m > n {
+            return Self::find_median_sorted_arrays(nums2, nums1);
+        }
+
+        let half = (m + n + 1) / 2;
+        let mut left = 0;
+        let mut right = m;
+
+        while left <= right {
+            let pointer = (left + right) / 2;
+            let opposite = half - pointer;
+
+            let a_left = if pointer == 0 { i32::MIN } else { nums1[pointer - 1] };
+            let a_right = if pointer == m { i32::MAX } else { nums1[pointer] };
+            let b_left = if opposite == 0 { i32::MIN } else { nums2[opposite - 1] };
+            let b_right = if opposite == n { i32::MAX } else { nums2[opposite] };
+
+            if a_left <= b_right && b_left <= a_right {
+                let max_left = max(a_left, b_left);
+                let min_right = min(a_right, b_right);
+
+                if (m + n) % 2 == 0 {
+                    return (max_left as f64 + min_right as f64) / 2.0;
+                }
+                return max_left as f64;
+            } else if a_left > b_right {
+                right = pointer - 1;
+            } else {
+                left = pointer + 1;
+            }
+        }
+
+        0.0
+    }
+}
+```
