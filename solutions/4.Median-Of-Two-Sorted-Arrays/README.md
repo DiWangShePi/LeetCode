@@ -56,12 +56,12 @@ public:
 
         while (left <= right) {
             int pointer = (left + right) / 2;
-            int j = half - pointer;
+            int oppsite = half - pointer;
 
             int ALeft = (pointer == 0) ? INT_MIN : nums1[pointer - 1];
             int ARight = (pointer == m) ? INT_MAX : nums1[pointer];
-            int BLeft = (j == 0) ? INT_MIN : nums2[j - 1];
-            int BRight = (j == n) ? INT_MAX : nums2[j];
+            int BLeft = (oppsite == 0) ? INT_MIN : nums2[oppsite - 1];
+            int BRight = (oppsite == n) ? INT_MAX : nums2[oppsite];
 
             if (ALeft <= BRight && BLeft <= ARight) {
                 int maxLeft = max(ALeft, BLeft);
