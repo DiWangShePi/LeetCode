@@ -67,3 +67,51 @@ public:
     }
 };
 ```
+
+###### rust
+
+```rust
+use std::cmp::min;
+use regex::Regex;
+
+impl Solution {
+    pub fn longest_palindrome(s: String) -> String {
+        if s.len() <= 1 {
+            return s.to_string();
+        }
+    
+        let mut max_len = 1;
+        let mut max_str = s.chars().next().unwrap().to_string();
+        let re = Regex::new("").unwrap();
+        let replaced_s = re.replace_all(&s, "#");
+        let mut s: String = format!("#{}#", replaced_s);
+        let mut array = vec![0; s.len()];
+        let mut center = 0;
+        let mut right = 0;
+    
+        for i in 0..s.len() {
+            if i < right {
+                array[i] = min(right - i, array[2 * center - i]);
+            }
+    
+            while i >= array[i] + 1 && i + array[i] + 1 < s.len() && s.chars().nth(i - array[i] - 1) == s.chars().nth(i + array[i] + 1) {
+                array[i] += 1;
+            }
+    
+            if i + array[i] > right {
+                center = i;
+                right = i + array[i];
+            }
+    
+            if array[i] > max_len {
+                max_len = array[i];
+                let start = i - array[i];
+                let end = i + array[i] + 1;
+                max_str = s[start..end].replace("#", "");
+            }
+        }
+    
+        max_str
+    }
+}
+```
