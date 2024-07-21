@@ -79,3 +79,46 @@ P     I
 “PI”
 
 然后把这四串拼接在一起就行了。
+
+### 代码实现
+
+###### c++
+```c++
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if (numRows == 1) {
+            return s;
+        }
+
+        std::vector<string> array(numRows, "");
+        for(int i = 0; i < s.length(); i++) {
+            char currentChar = s[i];
+            int position = i % (2 * numRows - 2);
+
+            if (position < numRows) {
+                array[position] += currentChar;
+            } else {
+                int target = 2 * numRows - 2 - position;
+                for(int j = 0; j < numRows; j++) {
+                    if (j == target) {
+                        array[j] += currentChar;
+                    } else {
+                        array[j] += ' ';
+                    }
+                }
+            }
+        }
+
+        std::string answer = s.substr(0, 0);
+        for(int i = 0; i < numRows; i++) {
+            std::string currentString = array[i];
+            cout << currentString << endl;
+
+            currentString.erase(std::remove(currentString.begin(), currentString.end(), ' '), currentString.end());
+            answer += currentString;
+        }
+        return answer;
+    }
+};
+```
