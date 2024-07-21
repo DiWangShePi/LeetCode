@@ -113,7 +113,7 @@ public:
         std::string answer = s.substr(0, 0);
         for(int i = 0; i < numRows; i++) {
             std::string currentString = array[i];
-            cout << currentString << endl;
+            # cout << currentString << endl;
 
             currentString.erase(std::remove(currentString.begin(), currentString.end(), ' '), currentString.end());
             answer += currentString;
@@ -121,4 +121,37 @@ public:
         return answer;
     }
 };
+```
+
+###### rust
+
+```rust
+impl Solution {
+    pub fn convert(s: String, num_rows: i32) -> String {
+        if num_rows == 1 {
+            return s;
+        }
+
+        let mut array = vec![String::new(); num_rows as usize];
+        let chars: Vec<char> = s.chars().collect();
+        let cycle_len = 2 * num_rows - 2;
+
+        for (i, &current_char) in chars.iter().enumerate() {
+            let position = (i as i32) % cycle_len;
+            if position < num_rows {
+                array[position as usize].push(current_char);
+            } else {
+                let target = 2 * num_rows - 2 - position;
+                array[target as usize].push(current_char);
+            }
+        }
+
+        let mut answer = String::new();
+        for i in 0..num_rows as usize {
+            answer.push_str(&array[i]);
+        }
+
+        answer
+    }
+}
 ```
