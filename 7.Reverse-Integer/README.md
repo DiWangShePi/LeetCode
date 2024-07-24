@@ -70,3 +70,43 @@ public:
     }
 };
 ```
+
+###### rust
+
+```rust
+impl Solution {
+    pub fn reverse(x: i32) -> i32 {
+        if x == i32::MIN { return 0; }
+
+        let mut real_x = x;
+
+        let mut is_nei: bool = false;
+        if real_x < 0 {
+            is_nei = true;
+            real_x = -real_x;
+        }
+
+        let converted_x: Vec<char> = real_x.to_string().chars().collect();
+        let mut possible_an = String::new();
+        let mut is_zero = true;
+        for &ch in converted_x.iter().rev() {
+            if ch == '0' && is_zero {
+                continue;
+            }
+            
+            is_zero = false;
+            possible_an.push(ch);
+        }
+
+        let answer = possible_an.parse::<i64>().unwrap_or(0);
+        if answer > i32::MAX as i64 {
+            return 0;
+        }
+        
+        if is_nei {
+            return - answer as i32;
+        }
+        return answer as i32;
+    }
+}
+```
