@@ -113,3 +113,56 @@ public:
 };
 ```
 
+###### rust
+```rust
+impl Solution {
+    pub fn my_atoi(s: String) -> i32 {
+        let mut i: usize = 0;
+        let mut answer = String::new();
+        let s_chars: Vec<char> = s.chars().collect();
+
+        // 跳过前导空格
+        while i < s_chars.len() && s_chars[i] == ' ' {
+            i += 1;
+        }
+
+        let mut is_nei: bool = false;
+        // 检查符号
+        if i < s_chars.len() {
+            if s_chars[i] == '-' {
+                is_nei = true;
+                i += 1;
+            } else if s_chars[i] == '+' {
+                i += 1;
+            }
+        }
+
+        // 读取数字字符
+        while i < s_chars.len() && s_chars[i].is_digit(10) {
+            answer.push(s_chars[i]);
+            i += 1;
+        }
+
+        if answer.is_empty() {
+            return 0;
+        }
+
+        match answer.parse::<i32>() {
+            Ok(real_answer) => {
+                if is_nei {
+                    -real_answer
+                } else {
+                    real_answer
+                }
+            }
+            Err(_) => {
+                if is_nei {
+                    i32::MIN
+                } else {
+                    i32::MAX
+                }
+            }
+        }
+    }
+}
+```
