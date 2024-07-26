@@ -60,3 +60,56 @@ Reading stops at the first non-digit character 'w'.
 ### 题目解析
 
 按照题目要求实现即可。
+
+### 代码实现
+
+###### c++
+```c++
+#include <iostream>
+#include <string>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int myAtoi(string s) {
+        int i = 0;
+        std::string answer;
+
+        while (i < s.length() && s[i] == ' ') {
+            i++;
+        }
+
+        bool isNei = false;
+        if (i < s.length() && s[i] == '-') {
+            isNei = true;
+            i++;
+        } else if (i < s.length() && s[i] == '+') {
+            i++;
+        }
+
+        while (i < s.length() && '0' <= s[i] && s[i] <= '9') {
+            answer += s[i];
+            i++;
+        }
+
+        if (answer.empty()) {
+            return 0;
+        }
+
+        try {
+            long long result = stoll(answer);
+            if (isNei) {
+                result = -result;
+            }
+            if (result > INT_MAX) return INT_MAX;
+            if (result < INT_MIN) return INT_MIN;
+            return static_cast<int>(result);
+        } catch (out_of_range&) {
+            return isNei ? INT_MIN : INT_MAX;
+        }
+    }
+};
+```
+
