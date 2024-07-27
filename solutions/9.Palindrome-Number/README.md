@@ -36,3 +36,31 @@
 继续将12321模10，获得的结果为123和2。将上一步获得的1乘以10，再加上2。
 
 再将123模10，获得的结果为12和3，12与此前保留下来的12相等，因此结果为正确。
+
+### 代码实现
+
+###### c++
+
+```c++
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        std::string convertedX = std::to_string(x);
+        for (int i = 0; i < convertedX.length(); i++) {
+            int reverse = convertedX.length() - i - 1;
+            if (reverse < i) {
+                break;
+            }
+
+            if (convertedX[i] != convertedX[reverse]) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+```
