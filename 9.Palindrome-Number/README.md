@@ -64,3 +64,26 @@ public:
     }
 };
 ```
+
+###### rust
+
+```rust
+impl Solution {
+    pub fn is_palindrome(x: i32) -> bool {
+        let converted_x: Vec<char> = x.to_string().chars().collect();
+        for i in 0..converted_x.len() {
+            let reverse = converted_x.len() - i - 1;
+            if reverse < i {
+                break;
+            }
+
+            let current: char = converted_x[i];
+            let check: char = converted_x[reverse];
+            if current != check {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
