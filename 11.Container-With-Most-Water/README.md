@@ -31,3 +31,39 @@
 
 ###### 双指针
 创建指针head和tail，分别指向数组的头部和尾部，计算容量。不断更新其中一个指针的位置，更新并保留最大容量。更新方法为移动当前head和tail中较小的哪一个。
+
+### 代码实现
+
+###### c++
+
+```c++
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int left = 0, right = height.size() - 1;
+        int maxArea = 0;
+
+        auto getElementAtIndices = [&](int index1, int index2) -> int {
+            int currentHeight = min(height[index1], height[index2]);
+            return currentHeight * (index2 - index1);
+        };
+
+        while (left < right) {
+            int area = getElementAtIndices(left, right);
+            maxArea = max(maxArea, area);
+
+            if (height[left] <= height[right]) {
+                left ++;
+            } else {
+                right --;
+            }
+        }
+        return maxArea;
+    }
+};
+```
