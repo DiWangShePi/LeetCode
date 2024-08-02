@@ -67,3 +67,32 @@ public:
     }
 };
 ```
+
+###### rust
+
+```rust
+use std::cmp;
+
+impl Solution {
+    pub fn max_area(height: Vec<i32>) -> i32 {
+        let mut left: usize = 0;
+        let mut right: usize = height.len() - 1;
+
+        let mut current_area = 0;
+        let mut max_area = 0;
+
+        while left < right {
+            current_area = cmp::min(height[left], height[right]) * (right - left) as i32;
+            max_area = cmp::max(current_area, max_area);
+            
+            if (height[left] <= height[right]) {
+                left += 1;
+            } else {
+                right -= 1;
+            }
+        }
+
+        max_area
+    }
+}
+```
