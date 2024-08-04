@@ -65,6 +65,8 @@ Explanation:
 
 ### 代码实现
 
+###### c++
+
 ```c++
 const string thousands[] = {"", "M", "MM", "MMM"};
 const string hundreds[]  = {"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"};
@@ -77,4 +79,28 @@ public:
         return thousands[num / 1000] + hundreds[num % 1000 / 100] + tens[num % 100 / 10] + ones[num % 10];
     }
 };
+```
+
+###### rust
+
+```rust
+impl Solution {
+    pub fn int_to_roman(num: i32) -> String {
+        const C: [&str; 10] = ["", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"];
+        const X: [&str; 10] = ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"];
+        const I: [&str; 10] = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"];
+
+        let mut result = String::new();
+
+        for _ in 0..num / 1000 {
+            result.push('M');
+        }
+
+        result.push_str(C[((num % 1000) / 100) as usize]);
+        result.push_str(X[((num % 100) / 10) as usize]);
+        result.push_str(I[(num % 10) as usize]);
+
+        result
+    }
+}
 ```
