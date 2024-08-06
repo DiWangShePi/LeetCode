@@ -49,3 +49,58 @@ C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
 若存在小的数字在大的数字的左边的情况，根据规则需要减去小的数字。对于这种情况，我们也可以将每个字符视作一个单独的值，若一个数字右侧的数字比它大，则将该数字的符号取反。
 
 例如 XIV 可视作 X−I+V=10−1+5=14。
+
+### 代码实现
+
+###### c++
+
+```c++
+#include <string>
+#include <map>
+
+
+class Solution {
+public:
+    int romanToInt(string s) {
+        std::map<char, int> dict = {
+            {'I', 1},
+            {'V', 5},
+            {'X', 10},
+            {'L', 50},
+            {'C', 100},
+            {'D', 500},
+            {'M', 1000}
+        };
+        
+        int result = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char currentNum = s[i];
+
+            bool shouldRe = false;
+            switch (currentNum)
+            {
+            case 'I':
+                if (i+1 < s.length() && (s[i+1] == 'V' || s[i+1] == 'X')) {
+                    shouldRe = true;
+                }
+                break;
+            case 'X':
+                if (i+1 < s.length() && (s[i+1] == 'L' || s[i+1] == 'C')) {
+                    shouldRe = true;
+                }
+                break;
+            case 'C':
+                if (i+1 < s.length() && (s[i+1] == 'D' || s[i+1] == 'M')) {
+                    shouldRe = true;
+                }
+                break;
+            default:
+                break;
+            }
+
+            result = shouldRe ? result - dict[currentNum] : result + dict[currentNum];
+        }
+        return result;
+    }
+};
+```
