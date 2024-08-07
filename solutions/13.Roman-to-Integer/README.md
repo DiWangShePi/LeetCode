@@ -104,3 +104,57 @@ public:
     }
 };
 ```
+
+###### rust
+
+```rust
+use std::collections::HashMap;
+
+impl Solution {
+    pub fn roman_to_int(s: String) -> i32 {
+        let dict: HashMap<char, i32> = vec![
+            ('I', 1),
+            ('V', 5),
+            ('X', 10),
+            ('L', 50),
+            ('C', 100),
+            ('D', 500),
+            ('M', 1000),
+        ].into_iter().collect();
+
+        let mut result = 0;
+        let chars: Vec<char> = s.chars().collect();
+        
+        for (i, &current_char) in chars.iter().enumerate() {
+            let mut should_re = false;
+
+            match current_char {
+                'I' => {
+                    if i + 1 < s.len() && (chars[i + 1] == 'V' || chars[i + 1] == 'X') {
+                        should_re = true;
+                    }
+                },
+                'X' => {
+                    if i + 1 < s.len() && (chars[i + 1] == 'L' || chars[i + 1] == 'C') {
+                        should_re = true;
+                    }
+                },
+                'C' => {
+                    if i + 1 < s.len() && (chars[i + 1] == 'D' || chars[i + 1] == 'M') {
+                        should_re = true;
+                    }
+                },
+                _ => {}
+            }
+
+            if should_re {
+                result -= dict[&current_char];
+            } else {
+                result += dict[&current_char];
+            }
+        }
+        
+        result
+    }
+}
+```
