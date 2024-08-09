@@ -61,3 +61,35 @@ public:
     }
 };
 ```
+
+###### rust
+
+```rust
+use std::cmp::min;
+
+impl Solution {
+    pub fn longest_common_prefix(strs: Vec<String>) -> String {
+        if strs.is_empty() {
+            return "".to_string();
+        }
+
+        let mut min_length: usize = strs[0].len();
+        for s in &strs {
+            min_length = min(min_length, s.len());
+        }
+
+        let mut answer = String::new();
+        for i in 0..min_length {
+            let current_char = strs[0].chars().nth(i).unwrap();
+            for s in &strs {
+                if s.chars().nth(i).unwrap() != current_char {
+                    return answer;
+                }
+            }
+            answer.push(current_char);
+        }
+        
+        answer
+    }
+}
+```
