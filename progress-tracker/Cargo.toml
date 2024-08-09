@@ -1,0 +1,19 @@
+[package]
+authors = ["EFanZh <efanzh@gmail.com>"]
+edition = "2021"
+name = "progress-tracker"
+version = "0.1.0"
+
+[dependencies]
+chrono = "*"
+git2 = "*"
+http = "*"
+num = "*"
+plotters = "*"
+reqwest = { version = "*", features = ["blocking", "json"] }
+serde = { version = "*", features = ["derive"] }
+serde_json = "1.0"
+regex = "1.10.6"
+
+[dev-dependencies]
+serde_json = "*"
