@@ -36,3 +36,43 @@ nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。
 延用第一题的思路。遍历数组，对每个元素I，遍历除I以外所有元素J，在字典中记录0与I,J之和的差值。
 
 遍历时同步检查当前元素是否存在于数组。
+
+### 代码实现
+
+###### c++
+```c++
+#include <vector>
+#include <algorithm>
+
+class Solution {
+public:
+    std::vector<std::vector<int>> threeSum(std::vector<int>& nums) {
+        std::vector<std::vector<int>> answer;
+        std::sort(nums.begin(), nums.end());
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int left = i + 1, right = nums.size() - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+                    answer.push_back({nums[i], nums[left], nums[right]});
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return answer;
+    }
+};
+```
