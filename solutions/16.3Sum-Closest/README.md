@@ -58,3 +58,37 @@ public:
     }
 };
 ```
+
+###### rust
+```rust
+impl Solution {
+    pub fn three_sum_closest(nums: Vec<i32>, target: i32) -> i32 {
+        let mut nums = nums.clone();
+        nums.sort();
+        let mut answer = nums[0] + nums[1] + nums[2];
+
+        for i in 0..nums.len() {
+            let mut l = i + 1;
+            let mut r = nums.len() - 1;
+
+            while (l < r) {
+                let current_answer = nums[i] + nums[l] + nums[r];
+                if (current_answer == target) {
+                    return current_answer;
+                }
+
+                if ((current_answer - target).abs() < (answer - target).abs()) {
+                    answer = current_answer;
+                }
+                if (current_answer < target) {
+                    l = l + 1;
+                }else {
+                    r = r - 1;
+                }
+            }
+        }
+
+        answer
+    }
+}
+```
