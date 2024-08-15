@@ -53,3 +53,49 @@ private:
     }
 };
 ```
+
+###### rust
+
+```rust
+use std::collections::HashMap;
+
+impl Solution {
+    pub fn letter_combinations(digits: String) -> Vec<String> {
+        if digits.is_empty() {
+            return Vec::new();
+        }
+
+        let dict: HashMap<char, String> = vec![
+            ('2', "abc".to_string()),
+            ('3', "def".to_string()),
+            ('4', "ghi".to_string()),
+            ('5', "jkl".to_string()),
+            ('6', "mno".to_string()),
+            ('7', "pqrs".to_string()),
+            ('8', "tuv".to_string()),
+            ('9', "wxyz".to_string()),
+        ].into_iter().collect();
+
+        let mut combinations: Vec<String> = Vec::new();
+        Self::back_track(0, String::new(), &digits, &dict, &mut combinations);
+        combinations
+    }
+
+    fn back_track(index: usize, path: String, digits: &str, dict: &HashMap<char, String>, com: &mut Vec<String>) {
+        if path.len() == digits.len() {
+            com.push(path);
+            return;
+        }
+
+        if let Some(digit) = digits.chars().nth(index) {
+            if let Some(possible_letters) = dict.get(&digit) {
+                for letter in possible_letters.chars() {
+                    let mut new_path = path.clone();
+                    new_path.push(letter);
+                    Self::back_track(index + 1, new_path, digits, dict, com);
+                }
+            }
+        }
+    }
+}
+```
