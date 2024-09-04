@@ -53,7 +53,7 @@ The substring starting at 12 is "thefoobar". It is the concatenation of ["the","
 
 ### 代码实现
 
-```
+```c++
 class Solution {
     std::unordered_map<std::string, unsigned int> map;
 public:
@@ -92,6 +92,105 @@ public:
         }
 
         return result;
+    }
+};
+```
+
+Solution using dfs (Time limit exceeded)
+
+```c++
+#include<map>
+#include<string>
+#include<vector>
+#include<iostream>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        map<string, int> wordMap;
+        for (const auto& word : words) {
+            wordMap[word] += 1;
+        }
+
+        vector<int> candidateList(s.length()+1, 0);
+        for (auto & iter : wordMap)
+        {
+            vector<int> possible = strStr(s, iter.first);
+            if (possible.empty())
+            {
+                return {};
+            }
+            if (possible.size() < candidateList.size())
+            {
+                candidateList = possible;
+            }
+        }
+
+        vector<int> result;
+
+        int wordSize = words[0].size();
+        for (int i : candidateList)
+        {
+            const int left = i;
+            const int right = i + wordSize;
+            if (right - left == wordSize * words.size())
+                result.push_back(left);
+            string currentSub = s.substr(i, wordSize);
+
+            map<string, int> wordMapCopyL = wordMap;
+            wordMapCopyL[currentSub]--;
+            if (left-wordSize >= 0)
+                dfs(left-wordSize, right, s.substr(left-wordSize, wordSize), wordMapCopyL, result, wordSize, words.size(), s);
+
+            map<string, int> wordMapCopyR = wordMap;
+            wordMapCopyR[currentSub]--;
+            if (right + wordSize <= s.length())
+                dfs(left, right+wordSize, s.substr(right, wordSize), wordMapCopyR, result, wordSize, words.size(), s);
+        }
+
+        set<int> uniqueSet(result.begin(), result.end());
+        return vector<int>(uniqueSet.begin(), uniqueSet.end());
+    }
+
+private:
+    void dfs(int left, int right, const string& sub, map<string, int>& wordMap, vector<int>& result, const int wordSize, const int wordNum, const string& s)
+    {
+        if ((wordMap.find(sub) != wordMap.end()) && (wordMap[sub] != 0))
+        {
+            if (right - left == wordNum * wordSize)
+            {
+                result.push_back(left);
+                return;
+            }
+
+            wordMap[sub]--;
+            if (left-wordSize >= 0)
+                dfs(left-wordSize, right, s.substr(left-wordSize, wordSize), wordMap, result, wordSize, wordNum, s);
+            if (right + wordSize <= s.length())
+                dfs(left, right+wordSize, s.substr(right, wordSize), wordMap, result, wordSize, wordNum, s);
+        }
+    }
+
+    static vector<int> strStr(const string& s, const string& sub)
+    {
+        if (s.length() < sub.length()) {
+            return {};
+        }
+
+        vector<int> answer;
+
+        for (int i = 0; i < s.length() - sub.length() + 1; i++) {
+            if (s[i] == sub[0]) {
+                std::string targetString = s.substr(i, sub.length());
+                if (targetString == sub) {
+                    answer.push_back(i);
+                }
+            }
+        }
+        return answer;
     }
 };
 ```
