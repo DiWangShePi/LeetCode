@@ -43,7 +43,7 @@ public:
         return ans;
     }
 
-    void deep(int index, vector<int> temp, vector<bool>& contains, vector<int>& nums, vecor<vector<int>> ans) {
+    void deep(int index, vector<int> temp, vector<bool>& contains, vector<int>& nums, vector<vector<int>>& ans) {
         if (index == nums.size()) {
             ans.push_back(temp);
             return;
@@ -55,7 +55,7 @@ public:
             temp.push_back(nums[i]);
             contains[i] = true;
 
-            deep(1, temp, contains, nums, ans);
+            deep(index+1, temp, contains, nums, ans);
 
             temp.pop_back();
             contains[i] = false;
