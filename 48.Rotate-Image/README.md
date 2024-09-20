@@ -30,3 +30,41 @@ public:
     }
 };
 ```
+
+not recommend
+
+```c++
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size() % 2 != 0 ? (matrix.size() - 1) / 2 : (matrix.size() + 1) / 2;
+        for (int j = 0; j < n; j++) {
+             for (int i = 0; i < n; i++) {
+                int t_l = matrix[j][i];
+                int d_l = matrix[matrix.size() - 1 - i][j];
+                int d_r = matrix[matrix.size() - 1 - j][matrix.size() - 1 - i];
+                int t_r = matrix[i][matrix.size() - 1 - j];
+
+                matrix[j][i] = d_l;
+                matrix[matrix.size() - 1 - i][j] = d_r;
+                matrix[matrix.size() - 1 - j][matrix.size() - 1 - i] = t_r;
+                matrix[i][matrix.size() - 1 - j] = t_l;
+             }
+        }
+
+        if (matrix.size() % 2 != 0) {
+            for (int i = 0; i < n; i++) {
+                int t_l = matrix[i][n];
+                int t_r = matrix[n][matrix.size() - 1 - i];
+                int d_r = matrix[matrix.size() - 1 - i][n];
+                int d_l = matrix[n][i];
+
+                matrix[i][n] = d_l;
+                matrix[n][matrix.size() - 1 - i] = t_l;
+                matrix[matrix.size() - 1 - i][n] = t_r;
+                matrix[n][i] = d_r;
+            }
+        }
+    }
+};
+```
