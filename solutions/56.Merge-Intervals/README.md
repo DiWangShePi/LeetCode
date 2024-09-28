@@ -41,7 +41,7 @@ public:
         result.push_back(intervals[0]);
 
         for (int i = 1; i < intervals.size(); i++) {
-            vector<int> pre = result[result.size() - 1];
+            vector<int>& pre = result.back();
             vector<int> cur = intervals[i];
 
             if (cur[0] <= pre[1]) pre[1] = cur[1] > pre[1] ? cur[1] : pre[1];
