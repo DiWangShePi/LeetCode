@@ -25,6 +25,8 @@ Output: false
 
 ### 代码实现
 
+> I was very surprised to find that in this problem, the solution of traversing the part first and then dividing it by two can achieve a smaller cost than two binary divisions.
+
 ###### c++
 
 ```c++
@@ -50,3 +52,4 @@ public:
     }
 };
 ```
+
