@@ -25,7 +25,7 @@ Output: false
 
 ### 代码实现
 
-> I was very surprised to find that in this problem, the solution of traversing the part first and then dividing it by two can achieve a smaller cost than two binary divisions.
+> 我非常惊讶的发现，在这一题中，部分先遍历后二分的解法可以比两次二分取得更小的开销
 
 ###### c++
 
