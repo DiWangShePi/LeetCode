@@ -42,17 +42,17 @@ Explanation: [1,null,3] and [3,1] are both height-balanced BSTs.
 class Solution {
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        return sortedArrayToBSTHelper(nums, 0, nums.size() - 1);
+        return dfs(nums, 0, nums.size() - 1);
     }
 
-    TreeNode* sortedArrayToBSTHelper(const vector<int>& nums, int left, int right) {
+    TreeNode* dfs(const vector<int>& nums, int left, int right) {
         if (left > right) {
             return nullptr;
         }
         int mid = left + (right - left) / 2;
         TreeNode* node = new TreeNode(nums[mid]);
-        node->left = sortedArrayToBSTHelper(nums, left, mid - 1);
-        node->right = sortedArrayToBSTHelper(nums, mid + 1, right);
+        node->left = dfs(nums, left, mid - 1);
+        node->right = dfs(nums, mid + 1, right);
         return node;
     }
 };
