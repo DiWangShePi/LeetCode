@@ -10,7 +10,8 @@ Note: You may not engage in multiple transactions simultaneously (i.e., you must
 
 ### Solution
 
-在此前第123题中，我们限定了k=2，所以我们可以将数组划分为左右两个部分。分别求取两部分的最大利润，之和即为整个数组的最大利润。这题就不能这样了。
+在此前第123题中，我们限定了k=2，所以我们可以将数组划分为左右两个部分。分别求取两部分的最大利润，之和即为整个数组的最大利润。
+这题就不能这样了,因为我们没有一个合适的解决分段的方式。分成两段只需要一次遍历，三段就要加一层遍历了。复杂度会变成O(n^{k-1}).
 
 参考 https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/solutions/537731/mai-mai-gu-piao-de-zui-jia-shi-ji-iv-by-8xtkp/ 下子不语的题解
 
