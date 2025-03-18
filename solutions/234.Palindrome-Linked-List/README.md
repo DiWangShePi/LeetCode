@@ -8,7 +8,11 @@ Given the head of a singly linked list, return true if it is a palindrome or fal
 
 遍历后加入数组，双指针移动检查值是否相符。
 
-> 如果我将值保留下来，能算O(1)的额外空间吗？
+> 如果我将值保留下来，能算 O(1)的额外空间吗？
+
+> 不能，空间会溢出。
+> 逆天，你能保存一个这么长的地址数组，保存字符串就不行了？
+> 原来是因为 to_string 太吃开销了。
 
 ### Implementation
 
@@ -35,9 +39,40 @@ public:
         }
 
         for (int i = 0; i < nodeList.size(); i++) {
-            if (i >= nodeList.size() - i - 1) break; 
+            if (i >= nodeList.size() - i - 1) break;
             if (nodeList[i]->val != nodeList[nodeList.size() - i - 1]->val) return false;
         }
+        return true;
+    }
+};
+```
+
+> 更加优雅的链表反转，仅需要 O(1)的额外空间复杂度。但只适用于操作过程中别的线程不会访问该链表的状况，因为需要改动内部结构
+
+```c++
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if (!head || !head->next) return true; 
+        
+        ListNode *slow = head, *fast = head, *prev = nullptr;
+
+        while (fast && fast->next) {
+            fast = fast->next->next;
+            ListNode* temp = slow;
+            slow = slow->next;
+            temp->next = prev;
+            prev = temp;
+        }
+
+        if (fast) slow = slow->next;
+        
+        while (slow) {
+            if (slow->val != prev->val) return false;
+            slow = slow->next;
+            prev = prev->next;
+        }
+        
         return true;
     }
 };
