@@ -52,157 +52,155 @@ fn write_html(writer: &mut impl Write, problems: &[Problem], tree: &git2::Tree, 
     let solution_map = make_solution_map(tree);
 
     writeln!(writer, r#"<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeetCode Progress Report</title>
-    <style>
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #fff;
-            margin: 0;
-            padding: 0;
-        }}
-        .container {{
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 2rem;
-        }}
-        h1 {{
-            font-size: 2rem;
-            font-weight: normal;
-            margin-bottom: 1.5rem;
-            color: #222;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }}
-        h1 .red {{
-            color: #b30000;
-        }}
-        h2 {{
-            font-size: 1.5rem;
-            font-weight: normal;
-            margin: 2rem 0 1rem;
-            color: #555;
-        }}
-        .progress-chart {{
-            margin: 2rem 0;
-            text-align: center;
-        }}
-        .progress-chart img {{
-            max-width: 100%;
-            height: auto;
-            width: 800px;
-        }}
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            font-size: 0.85rem;
-        }}
-        th, td {{
-            padding: 0.4rem 0.6rem;
-            border-bottom: none;
-        }}
-        td:first-child, th:first-child {{
-            border-right: 2px solid #ddd;
-            padding-right: 0.8rem;
-        }}
-        th {{
-            color: #555;
-            font-weight: normal;
-            padding-bottom: 0.5rem;
-            text-align: left;
-        }}
-        td:nth-child(3), th:nth-child(3) {{
-            text-align: center;
-        }}
-        td:nth-child(4), th:nth-child(4) {{
-            text-align: center;
-        }}
-        .difficulty {{
-            display: inline-block;
-            padding: 0.1rem 0;
-            font-size: 0.85rem;
-            color: #666;
-        }}
-        a {{
-            color: #b30000;
-            text-decoration: none;
-        }}
-        a:hover {{
-            text-decoration: underline;
-            color: #8c0000;
-        }}
-        hr {{
-            border: 0;
-            height: 1px;
-            background: #eee;
-            margin: 1rem 0;
-        }}
-        .title-separator {{
-            border: 0;
-            height: 1px;
-            background: #ddd;
-            margin: 0.5rem 0 1.5rem;
-        }}
-        tr.no-solution {{
-            opacity: 0.6;
-            filter: grayscale(50%);
-        }}
-        tr.no-solution a {{
-            color: #999 !important;
-        }}
-        tr.no-solution .difficulty {{
-            opacity: 0.7;
-        }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>
-            <span class="red">LeetCode</span>
-            <span>Progress Report</span>
-        </h1>
-        
-        <hr class="title-separator">
-        
-        <div class="progress-chart">
-            <img src="{}" alt="Progress Chart">
-        </div>
-        
-        <hr>
-        
-        <h2>Detail</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Difficulty</th>
-                    <th>C++ Solutions</th>
-                </tr>
-            </thead>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LeetCode Progress Report</title>
+        <style>
+            body {{
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                background-color: #fff;
+                margin: 0;
+                padding: 0;
+            }}
+            .container {{
+                max-width: 850px;
+                margin: 0 auto;
+                padding: 2rem;
+            }}
+            h1 {{
+                font-size: 2rem;
+                font-weight: normal;
+                margin-bottom: 1.5rem;
+                color: #222;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+            }}
+            h1 .red {{
+                color: #b30000;
+            }}
+            h2 {{
+                font-size: 1.5rem;
+                font-weight: normal;
+                margin: 2rem 0 1rem;
+                color: #555;
+            }}
+            .progress-chart {{
+                margin: 2rem 0;
+                text-align: center;
+            }}
+            .progress-chart img {{
+                max-width: 100%;
+                height: auto;
+                width: 800px;
+            }}
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+                margin: 2rem 0;
+                font-size: 0.85rem;
+            }}
+            th, td {{
+                padding: 0.4rem 0.6rem;
+                border-bottom: none;
+            }}
+            td:first-child, th:first-child {{
+                border-right: 2px solid #ddd;
+                padding-right: 0.8rem;
+            }}
+            th {{
+                color: #555;
+                font-weight: normal;
+                padding-bottom: 0.5rem;
+                text-align: left;
+            }}
+            td:nth-child(3), th:nth-child(3) {{
+                text-align: center;
+            }}
+            td:nth-child(4), th:nth-child(4) {{
+                text-align: center;
+            }}
+            .difficulty {{
+                display: inline-block;
+                padding: 0.1rem 0;
+                font-size: 0.85rem;
+                color: #666;
+            }}
+            a {{
+                color: #b30000;
+                text-decoration: none;
+            }}
+            a:hover {{
+                text-decoration: underline;
+                color: #8c0000;
+            }}
+            hr {{
+                border: 0;
+                height: 1px;
+                background: #eee;
+                margin: 1rem 0;
+            }}
+            .title-separator {{
+                border: 0;
+                height: 1px;
+                background: #ddd;
+                margin: 0.5rem 0 1.5rem;
+            }}
+            tr.no-solution {{
+                opacity: 0.6;
+                filter: grayscale(50%);
+            }}
+            tr.no-solution a {{
+                color: #999 !important;
+            }}
+            tr.no-solution .difficulty {{
+                opacity: 0.7;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>
+                <span class="red">LeetCode</span>
+                <span>Progress Report</span>
+            </h1>
+            
+            <hr class="title-separator">
+            
+            <div class="progress-chart">
+                <img src="{}" alt="Progress Chart">
+            </div>
+            
+            <hr>
+            
+            <h2>Detail</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Difficulty</th>
+                        <th>C++ Solutions</th>
+                    </tr>
+                </thead>
             <tbody>"#, progress_chart).unwrap();
 
-    // Write table rows
     for problem in problems {
         let problem_id = get_problem_id(&problem.get_id());
         let has_solution = solution_map.contains_key(&problem_id);
 
-        // 修改这一行：根据 has_solution 动态添加 class
         writeln!(writer, r#"<tr class="{}">"#, if has_solution { "" } else { "no-solution" }).unwrap();
 
         writeln!(writer, r#"
-    <td>{}</td>
-    <td><a href="https://leetcode.com/problems/{}/">{}</a></td>
-    <td><span class="difficulty">{}</span></td>
-    <td>"#,
+                    <td>{}</td>
+                    <td><a href="https://leetcode.com/problems/{}/">{}</a></td>
+                    <td><span class="difficulty">{}</span></td>
+                    <td>"#,
                  problem.stat.frontend_question_id,
                  problem.stat.title_slug,
                  problem.stat.title,
@@ -222,7 +220,6 @@ fn write_html(writer: &mut impl Write, problems: &[Problem], tree: &git2::Tree, 
         writeln!(writer, "</td></tr>").unwrap();
     }
 
-    // Close HTML
     writeln!(writer, r#"</tbody>
             </table>
         </div>

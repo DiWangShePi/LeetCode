@@ -22,8 +22,8 @@ fn get_all_problems() -> Problems {
 }
 
 fn main() {
-    let repository = Path::new("..");  // 上级目录作为 Git 仓库
-    let target = Path::new("../docs");  // 上级目录的 docs 文件夹作为输出
+    let repository = Path::new(".."); 
+    let target = Path::new("../docs"); 
 
     let target_path = Path::new(&target);
     fs::create_dir_all(target_path).unwrap();
