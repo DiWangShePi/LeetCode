@@ -18,25 +18,30 @@ fn make_solution_map(tree: &git2::Tree) -> HashMap<String, Vec<solutions::Soluti
 }
 
 fn convert_problem_id(problem_id: &str) -> String {
-    let parts: Vec<&str> = problem_id.split('-').collect();
-    if parts.len() >= 2 {
-        let id = parts[0].trim_start_matches('0');
-        let title = parts[1..].join("-");
-        let title = title.split('-')
-            .map(|s| {
+    let force_upper = ["II", "III", "IV", "VI", "VII", "VIII", "IX", "X"];
+
+    let parts: Vec<&str> = problem_id.splitn(2, '-').collect();
+    let number = parts[0].trim_start_matches('0');
+    let title = parts.get(1).unwrap_or(&"");
+    let title = title
+        .split('-')
+        .map(|s| {
+            if force_upper.contains(&s.to_ascii_uppercase().as_str()) {
+                s.to_ascii_uppercase()
+            } else {
                 let mut c = s.chars();
                 match c.next() {
                     None => String::new(),
                     Some(f) => f.to_uppercase().chain(c).collect(),
                 }
-            })
-            .collect::<Vec<_>>()
-            .join("-");
-        format!("{}.{}", id, title)
-    } else {
-        problem_id.to_string()
-    }
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("-");
+
+    format!("{}.{}", number, title)
 }
+
 
 fn get_problem_id(problem_id: &str) -> String {
     let parts: Vec<&str> = problem_id.split('-').collect();
