@@ -5,17 +5,21 @@ use std::fs::File;
 use std::io::Write;
 use std::path::Path;
 
-fn make_solution_map(tree: &git2::Tree) -> HashMap<String, Vec<solutions::Solution>> {
+fn make_solution_map(tree: &git2::Tree) -> HashMap<String, String> {
     let mut result = HashMap::new();
 
     solutions::list(tree, |solution| {
+        // 提取文件夹名，不含末尾 '/'
+        let folder_name = solution.root.trim_matches('/').to_string();
+
+        // 只记录每个题号的第一个目录名（假设一个题号只对应一个目录）
         result.entry(solution.problem_id.clone())
-            .or_insert_with(Vec::new)
-            .push(solution);
+            .or_insert(folder_name);
     });
 
     result
 }
+
 
 fn convert_problem_id(problem_id: &str) -> String {
     let force_upper = ["II", "III", "IV", "VI", "VII", "VIII", "IX", "X"];
@@ -237,11 +241,15 @@ fn write_html(writer: &mut impl Write, problems: &[Problem], tree: &git2::Tree, 
         ).unwrap();
 
         if has_solution {
-            let github_link = format!(
-                "https://github.com/DiWangShePi/LeetCode/tree/main/solutions/{}/README.md",
-                convert_problem_id(&problem.get_id())
-            );
-            writeln!(writer, r#"<a href="{}" target="_blank">Solution</a>"#, github_link).unwrap();
+            if let Some(folder_name) = solution_map.get(&problem_id) {
+                let github_link = format!(
+                    "https://github.com/DiWangShePi/LeetCode/tree/main/solutions/{}/README.md",
+                    folder_name
+                );
+                writeln!(writer, r#"<a href="{}" target="_blank">Solution</a>"#, github_link).unwrap();
+            } else {
+                writeln!(writer, "-").unwrap();
+            }
         } else {
             writeln!(writer, "-").unwrap();
         }
